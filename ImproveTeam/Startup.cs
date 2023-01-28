@@ -1,11 +1,13 @@
 using ImproveTeam.Configurations;
 using ImproveTeam.Infrastructure.DataAccess.EF;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace ImproveTeam
 {
@@ -21,6 +23,17 @@ namespace ImproveTeam
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var cookieExpirationTimeSpan = TimeSpan.FromDays(30);
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/Auth/Login";
+                    options.SlidingExpiration = true;
+                    options.ExpireTimeSpan = cookieExpirationTimeSpan;
+                    options.Cookie.MaxAge = cookieExpirationTimeSpan;
+                });
+
             services.AddDbContext<DataStorageContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -47,6 +60,7 @@ namespace ImproveTeam
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
