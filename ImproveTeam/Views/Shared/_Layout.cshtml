@@ -63,6 +63,14 @@
                         <i class='bx bx-grid-alt nav_icon'></i>
                         <span class="nav_name">Главная</span>
                     </a>
+
+                    @if (User.IsInRole(CommonConstants.UserRole.TeamLead))
+                    {
+                        <a class="nav_link @Html.ActiveClass("Countries", "Index")" asp-controller="Countries" asp-action="Index">
+                            <i class='bx bx-world nav_icon'></i>
+                            <span class="nav_name">Страны</span>
+                        </a>
+                    }
                 </div>
             </div>
         </nav>
