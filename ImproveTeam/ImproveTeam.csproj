@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImproveTeam.Infrastructure.DataAccess.EF\ImproveTeam.Infrastructure.DataAccess.EF.csproj" />
+    <ProjectReference Include="..\ImproveTeam.Infrastructure.Services\ImproveTeam.Infrastructure.Services.csproj" />
   </ItemGroup>
 
 </Project>
