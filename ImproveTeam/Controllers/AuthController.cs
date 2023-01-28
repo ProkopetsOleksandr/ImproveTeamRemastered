@@ -15,5 +15,17 @@ namespace ImproveTeam.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public IActionResult Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            ModelState.AddModelError("", "Неверный логин или пароль");
+            return View(model);
+        }
     }
 }

@@ -10,8 +10,41 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Авторизация - ImproveTeam</title>
+
+    <!-- Login css -->
+    <link rel="stylesheet" href="~/css/login.css" />
+
+    <!-- jQuery 3.5.1 -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 </head>
-<body>
-    <h2>Login page</h2>
+<body class="dx-viewport">
+    <div class="container-fluid login-body">
+        <div class="login-wrapper">
+            <div id="logo">
+                <img src="/images/logo.svg" alt="Alternate Text" />
+                <span>Approach CRM</span>
+            </div>
+
+            @using (Html.BeginForm("Login", "Auth", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, true, new { @class = "form login-form", role = "form" }))
+            {
+                <img src="~/Images/avatar.png" />
+                <h2>Авторизация</h2>
+                <div class="input-group">
+                    @Html.TextBoxFor(m => m.Login)
+                    @Html.LabelFor(m => m.Login)
+                </div>
+                <div class="input-group">
+                    @Html.PasswordFor(m => m.Password)
+                    @Html.LabelFor(m => m.Password)
+                </div>
+
+                @Html.ValidationSummary()
+
+                @Html.AntiForgeryToken()
+                <input type="submit" value="Войти" class="btn btn-default login-submit" />
+            }
+        </div>
+    </div>
 </body>
 </html>
