@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImproveTeam.Domain\ImproveTeam.Domain.csproj" />
+    <ProjectReference Include="..\ImproveTeam.Infrastructure.DataAccess.EF\ImproveTeam.Infrastructure.DataAccess.EF.csproj" />
   </ItemGroup>
 
 </Project>
