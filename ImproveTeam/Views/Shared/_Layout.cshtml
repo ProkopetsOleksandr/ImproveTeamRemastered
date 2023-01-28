@@ -1,48 +1,68 @@
-﻿<!DOCTYPE html>
+﻿@using ImproveTeam.Extensions;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ImproveTeam</title>
+
+    <!-- Box Icons css-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" />
+
+    <!-- Bootstrap css -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- DevExtreme theme css -->
+    <link rel="stylesheet" href="https://cdn3.devexpress.com/jslib/22.2.4/css/dx.light.css">
+
+    <!-- Global css -->
+    <link rel="stylesheet" href="~/css/layout.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <!-- jQuery 3.5.1 js -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- Bootstrap js -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DevExtreme library js -->
+    <script type="text/javascript" src="https://cdn3.devexpress.com/jslib/22.2.4/js/dx.web.js"></script>
+
+    <!-- Site js -->
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ImproveTeam</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+<body id="body-pd">
+    <header class="header" id="header">
+        <div class="display-flex align-items-center">
+            <div class="header_toggle">
+                <i class='bx bx-menu' id="header-toggle"></i>
+            </div>
+            <div style="margin-left: 25px;">
+                <a href="https://drive.google.com/drive/folders/1VMTAu_hIRVo9YII4B4DVXkrUkoq3aQUJ" target="_blank">Креативы</a>
+            </div>
+        </div>
+    </header>
+    <div class="l-navbar" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="/" class="nav_logo">
+                    <img src="~/images/logo small.svg" style="width: 23px;" />
+                    <span class="nav_logo-name">Improve Team</span>
+                </a>
+                <div class="nav_list">
+                    <a class="nav_link @Html.ActiveClass("Home", "Index")" asp-controller="Home" asp-action="Index">
+                        <i class='bx bx-grid-alt nav_icon'></i>
+                        <span class="nav_name">Главная</span>
+                    </a>
                 </div>
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
     </div>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - ImproveTeam - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
