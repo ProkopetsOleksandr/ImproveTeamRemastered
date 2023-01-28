@@ -3,14 +3,16 @@ using ImproveTeam.Infrastructure.DataAccess.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ImproveTeam.Infrastructure.DataAccess.EF.Migrations
 {
     [DbContext(typeof(DataStorageContext))]
-    partial class DataStorageContextModelSnapshot : ModelSnapshot
+    [Migration("20230128184917_CreateRegionsTable")]
+    partial class CreateRegionsTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

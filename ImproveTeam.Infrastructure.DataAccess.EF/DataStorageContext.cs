@@ -13,11 +13,13 @@ namespace ImproveTeam.Infrastructure.DataAccess.EF
 
         public DbSet<User> Users { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Region> Regions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserMapping());
             modelBuilder.ApplyConfiguration(new CountryMapping());
+            modelBuilder.ApplyConfiguration(new RegionMapping());
         }
 
         public async Task<int> SaveChangesAsync()
