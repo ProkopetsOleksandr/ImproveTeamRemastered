@@ -1,3 +1,4 @@
+using ImproveTeam.Configurations;
 using ImproveTeam.Infrastructure.DataAccess.EF;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,8 @@ namespace ImproveTeam
         {
             services.AddDbContext<DataStorageContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.RegisterServices();
 
             services.AddControllersWithViews();
         }
