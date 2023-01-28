@@ -3,6 +3,7 @@ using ImproveTeam.Domain.Models;
 using ImproveTeam.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -65,6 +66,15 @@ namespace ImproveTeam.Controllers
             return !string.IsNullOrEmpty(model.ReturnUrl)
                 ? Redirect(model.ReturnUrl)
                 : Redirect("/");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+
+            return Redirect("/");
         }
 
         private ClaimsPrincipal GetClaimsPrincipal(User user)

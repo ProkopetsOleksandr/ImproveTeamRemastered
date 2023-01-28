@@ -42,6 +42,14 @@
                 <a href="https://drive.google.com/drive/folders/1VMTAu_hIRVo9YII4B4DVXkrUkoq3aQUJ" target="_blank">Креативы</a>
             </div>
         </div>
+        <div class="float-right">
+            <div id="signOutBlock">
+                <span>@User.Identity.Name</span>
+                <form asp-controller="Auth" asp-action="Logout" method="post">
+                    <i class="bx bx-log-out" onclick="onLogoutBtnClick(this)"></i>
+                </form>
+            </div>
+        </div>
     </header>
     <div class="l-navbar" id="nav-bar">
         <nav class="nav">
