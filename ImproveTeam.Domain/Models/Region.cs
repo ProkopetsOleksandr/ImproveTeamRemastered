@@ -8,6 +8,6 @@ namespace ImproveTeam.Domain.Models
         public string Name { get; set; }
         public int CountryId { get; set; }
         public Country Country { get; set; }
-        List<City> Cities { get; set; }
+        public List<City> Cities { get; set; }
     }
 }

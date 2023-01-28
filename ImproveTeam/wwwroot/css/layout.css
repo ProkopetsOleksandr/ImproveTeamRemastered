@@ -29,6 +29,10 @@ body {
     transition: .5s
 }
 
+main[role="main"] {
+    padding-top: 2em;
+}
+
 .header {
     width: 100%;
     height: var(--header-height);
