@@ -2,7 +2,8 @@
 
     var selectors = {
         countriesGridContainer: "#countriesGridContainer",
-        editCountryPopupContainer: "#editCountryPopupContainer"
+        editCountryPopupContainer: "#editCountryPopupContainer",
+        regionsGridContainer: "#regionsGridContainer"
     }
 
     function init() {
@@ -19,19 +20,67 @@
         dialogModule.showDialog(popup, url);
     }
 
+    function initRegionsGrid() {
+        var regionsGridContainer = $(selectors.regionsGridContainer);
+
+        var loadUrl = regionsGridContainer.data("load-url");
+        var insertUrl = regionsGridContainer.data("insert-url");
+        var updateUrl = regionsGridContainer.data("update-url");
+        var removeUrl = regionsGridContainer.data("remove-url");
+
+        $(selectors.regionsGridContainer).dxDataGrid({
+            dataSource: getRegionsGridDataSource(loadUrl, insertUrl, updateUrl, removeUrl),
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            showBorders: true,
+            selection: {
+                mode: 'single'
+            },
+            loadPanel: {
+                enabled: true,
+            },
+            paging: {
+                enabled: true,
+                pageSize: 12,
+                pageIndex: 0
+            },
+            searchPanel: {
+                visible: true
+            },
+            editing: {
+                allowAdding: true,
+                allowUpdating: true,
+                allowDeleting: true,
+                confirmDelete: true,
+                mode: 'row'
+            },
+            columns: [
+                {
+                    dataField: "name",
+                    caption: "Название"
+                }
+            ]
+        });
+    }
+
     function initEditCountryPopupContainer() {
         $(selectors.editCountryPopupContainer).dxPopup({
             title: "Редактировать страну",
             visible: false,
             hideOnOutsideClick: true,
-            width: 600,
-            height: "auto"
+            width: 1300,
+            height: "auto",
+            onHiding: function() {
+                $(selectors.countriesGridContainer).dxDataGrid("refresh");
+            },
         });
     }
 
     function initCountriesGrid() {
+        var url = $(selectors.countriesGridContainer).data("url");
+
         $(selectors.countriesGridContainer).dxDataGrid({
-            dataSource: getCountriesGridDataSource(),
+            dataSource: getDefaultGridDataSource(url),
             columns: getCountriesGridColumns(),
             allowColumnReordering: true,
             allowColumnResizing: true,
@@ -51,9 +100,7 @@
         });
     }
 
-    function getCountriesGridDataSource() {
-        var url = $(selectors.countriesGridContainer).data("url");
-
+    function getRegionsGridDataSource(loadUrl, insertUrl, updateUrl, removeUrl) {
         return new DevExpress.data.CustomStore({
             key: 'id',
             load: function () {
@@ -61,7 +108,7 @@
 
                 $.ajax({
                     type: 'GET',
-                    url: url,
+                    url: loadUrl,
                     success: function (result) {
                         deferred.resolve(result, {});
                     },
@@ -72,6 +119,78 @@
 
                 return deferred.promise();
             },
+            insert: function(values) {
+                var deferred = $.Deferred();
+
+                $.ajax({
+                    url: insertUrl,
+                    method: "POST",
+                    data: values
+                })
+                .done(deferred.resolve)
+                .fail(function (e) {
+                    deferred.reject("Insertion failed");
+                });
+
+                return deferred.promise();
+            },
+            update: function(key, values) {
+                var deferred = $.Deferred();
+
+                var url = updateUrl
+                    .replace("__regionId__", key)
+                    .replace("__regionName__", values.name);
+
+                $.ajax({
+                    url: url,
+                    method: "PUT"
+                })
+                .done(deferred.resolve)
+                .fail(function (e) {
+                    deferred.reject("Update failed");
+                });
+
+                return deferred.promise();
+            },
+            remove: function(key) {
+                var deferred = $.Deferred();
+
+                var url = removeUrl.replace("__regionId__", key);
+
+                $.ajax({
+                    url: url,
+                    method: "DELETE"
+                })
+                .done(deferred.resolve)
+                .fail(function (e) {
+                    deferred.reject("Deletion failed");
+                });
+
+                return deferred.promise();
+            },
+        });
+    }
+
+
+    function getDefaultGridDataSource(loadUrl) {
+        return new DevExpress.data.CustomStore({
+            key: 'id',
+            load: function() {
+                const deferred = $.Deferred();
+
+                $.ajax({
+                    type: 'GET',
+                    url: loadUrl,
+                    success: function (result) {
+                        deferred.resolve(result, {});
+                    },
+                    error: function () {
+                        deferred.reject('Data Loading Error');
+                    }
+                });
+
+                return deferred.promise();
+            }
         });
     }
 
@@ -136,7 +255,8 @@
 
     return {
         init: init,
-        showEditCountryPopup: showEditCountryPopup
+        showEditCountryPopup: showEditCountryPopup,
+        initRegionsGrid: initRegionsGrid
     };
 
 })(jQuery, dialogModule);

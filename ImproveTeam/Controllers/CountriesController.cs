@@ -37,6 +37,48 @@ namespace ImproveTeam.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetRegions(int countryId)
+        {
+            var regions = await _countryService.GetRegionsAsync(countryId);
+
+            return Ok(_mapper.Map<IReadOnlyCollection<RegionViewModel>>(regions));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRegion(AddRegionViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var region = await _countryService.AddRegionAsync(model.CountryId, model.Name);
+
+            return Ok(_mapper.Map<RegionViewModel>(region));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateRegion(UpdateRegionViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            await _countryService.UpdateRegionAsync(model.RegionId, model.Name);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteRegion(int regionId)
+        {
+            await _countryService.DeleteRegionAsync(regionId);
+
+            return Ok();
+        }
+
+        [HttpGet]
         public async Task<IActionResult> EditCountryPopup(int countryId)
         {
             var country = await _countryService.GetCountryByIdAsync(countryId);
