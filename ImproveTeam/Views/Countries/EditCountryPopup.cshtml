@@ -1,4 +1,4 @@
-﻿@model ImproveTeam.Models.Countries.EditCountryViewModel
+﻿@model ImproveTeam.Models.Countries.UpdateCountryViewModel
 
 <div>
     <div class="row margin-bottom-10">
@@ -22,11 +22,18 @@
             </div>
         </div>
         <div class="col-md-6">
-            Города выбранного региона
+            <strong style="color: red">Выберите регион чтобы увидеть города</strong>
+            <div id="citiesGridContainer" class="gridContainer"
+                 data-load-url="@Url.Action("GetCities", "Countries", new { regionId = "__regionId__" })"
+                 data-insert-url="@Url.Action("AddCity", "Countries", new { regionId = "__regionId__" })"
+                 data-update-url="@Url.Action("UpdateCity", "Countries", new { cityId = "__cityId__", name = "__cityName__" })"
+                 data-remove-url="@Url.Action("DeleteCity", "Countries", new { cityId = "__cityId__" })">
+            </div>
         </div>
     </div>
 </div>
 
 <script>
     countryModule.initRegionsGrid();
+    countryModule.initCitiesGrid();
 </script>

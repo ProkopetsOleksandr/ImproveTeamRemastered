@@ -3,7 +3,8 @@
     var selectors = {
         countriesGridContainer: "#countriesGridContainer",
         editCountryPopupContainer: "#editCountryPopupContainer",
-        regionsGridContainer: "#regionsGridContainer"
+        regionsGridContainer: "#regionsGridContainer",
+        citiesGridContainer: "#citiesGridContainer"
     }
 
     function init() {
@@ -30,8 +31,6 @@
 
         $(selectors.regionsGridContainer).dxDataGrid({
             dataSource: getRegionsGridDataSource(loadUrl, insertUrl, updateUrl, removeUrl),
-            allowColumnReordering: true,
-            allowColumnResizing: true,
             showBorders: true,
             selection: {
                 mode: 'single'
@@ -57,9 +56,53 @@
             columns: [
                 {
                     dataField: "name",
-                    caption: "Название"
+                    caption: "Регион"
                 }
-            ]
+            ],
+            onSelectionChanged: function (e) {
+                $(selectors.citiesGridContainer).dxDataGrid("refresh");
+            }
+        });
+    }
+
+    function initCitiesGrid() {
+        var citiesGridContainer = $(selectors.citiesGridContainer);
+
+        var loadUrl = citiesGridContainer.data("load-url");
+        var insertUrl = citiesGridContainer.data("insert-url");
+        var updateUrl = citiesGridContainer.data("update-url");
+        var removeUrl = citiesGridContainer.data("remove-url");
+
+        citiesGridContainer.dxDataGrid({
+            dataSource: getCitiesGridDataSource(loadUrl, insertUrl, updateUrl, removeUrl),
+            showBorders: true,
+            selection: {
+                mode: 'single'
+            },
+            loadPanel: {
+                enabled: true,
+            },
+            paging: {
+                enabled: true,
+                pageSize: 12,
+                pageIndex: 0
+            },
+            searchPanel: {
+                visible: true
+            },
+            editing: {
+                allowAdding: true,
+                allowUpdating: true,
+                allowDeleting: true,
+                confirmDelete: true,
+                mode: 'row'
+            },
+            columns: [
+                {
+                    dataField: "name",
+                    caption: "Город"
+                }
+            ],
         });
     }
 
@@ -97,6 +140,89 @@
             paging: {
                 enabled: true,
             }
+        });
+    }
+
+    function getCitiesGridDataSource(loadUrl, insertUrl, updateUrl, removeUrl) {
+        return new DevExpress.data.CustomStore({
+            key: "id",
+            load: function() {
+                var regionsGrid = $(selectors.regionsGridContainer).dxDataGrid("instance");
+                var selectedRegionId = regionsGrid.getSelectedRowKeys()[0];
+
+                if (!selectedRegionId) {
+                    return [];
+                }
+
+                const deferred = $.Deferred();
+
+                $.ajax({
+                    type: 'GET',
+                    url: loadUrl.replace("__regionId__", selectedRegionId),
+                    success: function(result) {
+                        deferred.resolve(result, {});
+                    },
+                    error: function() {
+                        deferred.reject('Data Loading Error');
+                    }
+                });
+
+                return deferred.promise();
+            },
+            insert: function(values) {
+                var deferred = $.Deferred();
+
+                var regionsGrid = $(selectors.regionsGridContainer).dxDataGrid("instance");
+                var selectedRegionId = regionsGrid.getSelectedRowKeys()[0];
+
+                if (!selectedRegionId) {
+                    return deferred.reject("Выберите регион");
+                }
+
+                $.ajax({
+                    url: insertUrl.replace("__regionId__", selectedRegionId),
+                    method: "POST",
+                    data: values
+                })
+                .done(deferred.resolve)
+                .fail(function (e) {
+                    deferred.reject("Insertion failed");
+                });
+
+                return deferred.promise();
+            },
+            update: function (key, values) {
+                var deferred = $.Deferred();
+
+                var url = updateUrl
+                    .replace("__cityId__", key)
+                    .replace("__cityName__", values.name);
+
+                $.ajax({
+                    url: url,
+                    method: "PUT"
+                })
+                .done(deferred.resolve)
+                .fail(function (e) {
+                    deferred.reject("Update failed");
+                });
+
+                return deferred.promise();
+            },
+            remove: function (key) {
+                var deferred = $.Deferred();
+
+                $.ajax({
+                    url: removeUrl.replace("__cityId__", key),
+                    method: "DELETE"
+                })
+                .done(deferred.resolve)
+                .fail(function (e) {
+                    deferred.reject("Deletion failed");
+                });
+
+                return deferred.promise();
+            },
         });
     }
 
@@ -256,7 +382,8 @@
     return {
         init: init,
         showEditCountryPopup: showEditCountryPopup,
-        initRegionsGrid: initRegionsGrid
+        initRegionsGrid: initRegionsGrid,
+        initCitiesGrid: initCitiesGrid
     };
 
 })(jQuery, dialogModule);

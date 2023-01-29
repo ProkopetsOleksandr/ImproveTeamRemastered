@@ -87,7 +87,49 @@ namespace ImproveTeam.Controllers
                 return BadRequest($"Country #{countryId} not found");
             }
 
-            return PartialView(_mapper.Map<EditCountryViewModel>(country));
+            return PartialView(_mapper.Map<UpdateCountryViewModel>(country));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCities(int regionId)
+        {
+            var cities = await _countryService.GetCitiesAsync(regionId);
+
+            return Ok(_mapper.Map<IReadOnlyCollection<CityViewModel>>(cities));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCity(AddCityViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            var city = await _countryService.AddCityAsync(model.RegionId, model.Name);
+
+            return Ok(_mapper.Map<CityViewModel>(city));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateCity(UpdateCityViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            await _countryService.UpdateCityAsync(model.CityId, model.Name);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCity(int cityId)
+        {
+            await _countryService.DeleteCityAsync(cityId);
+
+            return Ok();
         }
     }
 }

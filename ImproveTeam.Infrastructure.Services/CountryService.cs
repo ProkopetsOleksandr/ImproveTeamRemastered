@@ -75,5 +75,48 @@ namespace ImproveTeam.Infrastructure.Services
 
             await _dbContext.SaveChangesAsync();
         }
+
+        public async Task<IReadOnlyCollection<City>> GetCitiesAsync(int regionId)
+        {
+            return await _dbContext.Set<City>()
+                .Where(m => m.RegionId == regionId)
+                .ToListAsync();
+        }
+
+        public async Task<City> AddCityAsync(int regionId, string cityName)
+        {
+            var city = new City
+            {
+                RegionId = regionId,
+                Name = cityName
+            };
+
+            _dbContext.Set<City>().Add(city);
+            await _dbContext.SaveChangesAsync();
+
+            return city;
+        }
+
+        public async Task UpdateCityAsync(int cityId, string name)
+        {
+            var city = await _dbContext.Set<City>().FindAsync(cityId);
+            if (city == null)
+            {
+                return;
+            }
+
+            city.Name = name;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteCityAsync(int cityId)
+        {
+            var city = new City { Id = cityId };
+
+            _dbContext.Set<City>().Attach(city);
+            _dbContext.Set<City>().Remove(city);
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -12,5 +12,9 @@ namespace ImproveTeam.Domain.Interfaces
         Task<Region> AddRegionAsync(int countryId, string regionName);
         Task UpdateRegionAsync(int regionId, string name);
         Task DeleteRegionAsync(int regionId);
+        Task<IReadOnlyCollection<City>> GetCitiesAsync(int regionId);
+        Task<City> AddCityAsync(int regionId, string name);
+        Task UpdateCityAsync(int cityId, string name);
+        Task DeleteCityAsync(int cityId);
     }
 }

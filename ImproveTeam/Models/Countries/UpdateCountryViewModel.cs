@@ -2,7 +2,7 @@
 
 namespace ImproveTeam.Models.Countries
 {
-    public class EditCountryViewModel
+    public class UpdateCountryViewModel
     {
         public int Id { get; set; }
 

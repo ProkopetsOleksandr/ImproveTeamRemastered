@@ -16,7 +16,7 @@ namespace ImproveTeam.Configurations
         private void MapDomainToViewModel()
         {
             CreateMap<Country, CountryViewModel>();
-            CreateMap<Country, EditCountryViewModel>();
+            CreateMap<Country, UpdateCountryViewModel>();
             CreateMap<Region, RegionViewModel>();
             CreateMap<City, CityViewModel>();
         }
