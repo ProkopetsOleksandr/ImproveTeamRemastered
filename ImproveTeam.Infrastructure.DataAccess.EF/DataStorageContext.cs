@@ -17,6 +17,7 @@ namespace ImproveTeam.Infrastructure.DataAccess.EF
         public DbSet<City> Cities { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Advertiser> Advertisers { get; set; }
+        public DbSet<AdvertiserProducts> AdvertiserProducts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace ImproveTeam.Infrastructure.DataAccess.EF
             modelBuilder.ApplyConfiguration(new CityMapping());
             modelBuilder.ApplyConfiguration(new ProductMapping());
             modelBuilder.ApplyConfiguration(new AdvertiserMapping());
+            modelBuilder.ApplyConfiguration(new AdvertiserProductsMapping());
         }
 
         public async Task<int> SaveChangesAsync()
