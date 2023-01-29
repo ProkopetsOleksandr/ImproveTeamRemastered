@@ -15,6 +15,7 @@ namespace ImproveTeam.Infrastructure.DataAccess.EF
         public DbSet<Country> Countries { get; set; }
         public DbSet<Region> Regions { get; set; }
         public DbSet<City> Cities { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,7 @@ namespace ImproveTeam.Infrastructure.DataAccess.EF
             modelBuilder.ApplyConfiguration(new CountryMapping());
             modelBuilder.ApplyConfiguration(new RegionMapping());
             modelBuilder.ApplyConfiguration(new CityMapping());
+            modelBuilder.ApplyConfiguration(new ProductMapping());
         }
 
         public async Task<int> SaveChangesAsync()
