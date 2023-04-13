@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ImproveTeam.Domain.Models;
 using ImproveTeam.Models.Countries;
+using ImproveTeam.Models.Products;
 
 namespace ImproveTeam.Configurations
 {
@@ -19,6 +20,8 @@ namespace ImproveTeam.Configurations
             CreateMap<Country, UpdateCountryViewModel>();
             CreateMap<Region, RegionViewModel>();
             CreateMap<City, CityViewModel>();
+
+            CreateMap<Product, ProductViewModel>();
         }
 
         private void MapViewModelToDomain()

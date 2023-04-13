@@ -20,6 +20,7 @@ namespace ImproveTeam.Configurations
             services.AddScoped<IDbContext, DataStorageContext>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICountryService, CountryService>();
+            services.AddScoped<IProductService, ProductService>();
         }
     }
 }

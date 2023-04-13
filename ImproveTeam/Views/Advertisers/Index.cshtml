@@ -1,1 +1,22 @@
 ﻿<h2>Advertisers page</h2>
+
+
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Продукты</span>
+    </div>
+    <div class="card-body">
+        <div id="productsGridContainer" class="gridContainer"
+             data-load-url="@Url.Action("GetProducts", "Products")"
+             data-insert-url="@Url.Action("AddProduct", "Products")"
+             data-update-url="@Url.Action("UpdateProduct", "Products", new { productId = "__productId__", name = "__productName__" })"
+             data-remove-url="@Url.Action("DeleteProduct", "Products", new { productId = "__productId__" })"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/product.js" asp-append-version="true"></script>
+    <script>
+        productModule.init();
+    </script>
+}
