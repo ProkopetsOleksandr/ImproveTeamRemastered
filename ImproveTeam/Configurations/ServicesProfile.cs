@@ -21,6 +21,7 @@ namespace ImproveTeam.Configurations
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICountryService, CountryService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IAdvertiserService, AdvertiserService>();
         }
     }
 }

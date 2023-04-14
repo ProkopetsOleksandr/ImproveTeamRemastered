@@ -48,6 +48,9 @@
                     caption: "Название"
                 }
             ],
+            onSaved(e) {
+                productsList = e.component.getDataSource().items();
+            },
         });
     }
 

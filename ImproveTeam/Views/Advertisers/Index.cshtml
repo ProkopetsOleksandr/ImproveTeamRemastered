@@ -1,5 +1,31 @@
-﻿<h2>Advertisers page</h2>
+﻿@using Newtonsoft.Json
+@using System.Text.Json
+@using Newtonsoft.Json.Serialization
+@model List<ImproveTeam.Domain.Models.Product>
 
+@{ 
+    string productsList = JsonConvert.SerializeObject(Model, new JsonSerializerSettings
+    {
+        ContractResolver = new DefaultContractResolver
+        {
+            NamingStrategy = new CamelCaseNamingStrategy()
+        },
+        Formatting = Formatting.Indented
+    });
+}  
+
+<div class="card" style="margin-bottom: 2em;">
+    <div class="card-header">
+        <span class="card-title">Рекламодатели</span>
+    </div>
+    <div class="card-body">
+        <div id="advertisersGridContainer" class="gridContainer"
+             data-load-url="@Url.Action("GetAdvertisers", "Advertisers")"
+             data-insert-url="@Url.Action("AddAdvertiser", "Advertisers")"
+             data-update-url="@Url.Action("UpdateAdvertiser", "Advertisers")"
+             data-remove-url="@Url.Action("DeleteAdvertiser", "Advertisers", new { advertiserId = "__advertiserId__" })"></div>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-header">
@@ -15,8 +41,12 @@
 </div>
 
 @section Scripts {
+    <script src="~/js/advertisers.js" asp-append-version="true"></script>
     <script src="~/js/product.js" asp-append-version="true"></script>
     <script>
+        var productsList = @Html.Raw(productsList);
+
+        advertiserModule.init();
         productModule.init();
     </script>
 }
