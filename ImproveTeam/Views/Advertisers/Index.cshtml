@@ -1,9 +1,12 @@
-﻿@using Newtonsoft.Json
-@using System.Text.Json
+﻿@{
+    ViewData["Title"] = "Рекламодатели";
+}
+
+@using Newtonsoft.Json
 @using Newtonsoft.Json.Serialization
 @model List<ImproveTeam.Domain.Models.Product>
 
-@{ 
+@{
     string productsList = JsonConvert.SerializeObject(Model, new JsonSerializerSettings
     {
         ContractResolver = new DefaultContractResolver
@@ -12,7 +15,7 @@
         },
         Formatting = Formatting.Indented
     });
-}  
+}
 
 <div class="card" style="margin-bottom: 2em;">
     <div class="card-header">

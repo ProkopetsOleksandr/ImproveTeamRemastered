@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Интересы";
+}
+
+<div class="card">
+    <div class="card-header">
+        <span class="card-title">Интересы</span>
+    </div>
+    <div class="card-body">
+        <div id="interestsGridContainer" class="gridContainer"
+             data-load-url="@Url.Action("GetInterests", "Interests")"
+             data-insert-url="@Url.Action("AddInterest", "Interests")"
+             data-update-url="@Url.Action("UpdateInterest", "Interests", new { interestId = "__interestId__", name = "__interestName__" })"
+             data-remove-url="@Url.Action("DeleteInterest", "Interests", new { interestId = "__interestId__" })"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/interests.js" asp-append-version="true"></script>
+
+    <script>
+        interestsModule.init();
+    </script>
+}
