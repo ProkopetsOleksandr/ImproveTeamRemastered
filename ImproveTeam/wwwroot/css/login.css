@@ -111,6 +111,12 @@
     cursor: pointer;
 }
 
+.login-submit:hover {
+    background: #e0e3ea;
+    color: #000;
+    transition: all 0.4s;
+}
+
 #logo {
     position: relative;
     top: -34px;
